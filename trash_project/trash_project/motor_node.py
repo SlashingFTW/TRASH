@@ -210,7 +210,7 @@ class MotorNode(Node):
         if self.state == ArmState.HOMING:
             self.send_named_command("home")
             self.state = ArmState.GO_TO_READY
-            self.get_logger().info("→ GO_TO_READY")
+            self.get_logger().info("GO_TO_READY")
             msg = String()
             msg.data = self.state.name
             self.state_pub.publish(msg)
@@ -219,7 +219,7 @@ class MotorNode(Node):
         elif self.state == ArmState.GO_TO_READY:
             self.send_named_command("ready_pos")  # This is your ready position
             self.state = ArmState.IDLE
-            self.get_logger().info("→ IDLE (Waiting for cv_node)")
+            self.get_logger().info("IDLE (Waiting for cv_node)")
             self.send_ready_feedback()      # Send cv_node, "ready"
             return
 
@@ -229,22 +229,22 @@ class MotorNode(Node):
         elif self.state == ArmState.MOVE_TO_OBJECT:
             self.send_named_command(self.cv_target)     # Go to far_left/left/far_right/right/center
             self.state = ArmState.GRAB_OBJECT
-            self.get_logger().info("→ GRAB_OBJECT")
+            self.get_logger().info("GRAB_OBJECT")
 
         elif self.state == ArmState.GRAB_OBJECT:
             self.send_named_command("ee_close")         # Close gripper
             self.state = ArmState.LIFT_OBJECT
-            self.get_logger().info("→ LIFT_OBJECT")
+            self.get_logger().info("LIFT_OBJECT")
 
         elif self.state == ArmState.LIFT_OBJECT:
             self.send_named_command("lift")
             self.state = ArmState.MOVE_TO_SPECTROMETER
-            self.get_logger().info("→ MOVE_TO_SPECTROMETER")
+            self.get_logger().info("MOVE_TO_SPECTROMETER")
 
         elif self.state == ArmState.MOVE_TO_SPECTROMETER:
             self.send_named_command("spectrometer")
             self.state = ArmState.ANALYZE_OBJECT
-            self.get_logger().info("→ ANALYZE_OBJECT")
+            self.get_logger().info("ANALYZE_OBJECT")
 
         elif self.state == ArmState.ANALYZE_OBJECT:
             self.get_logger().info("Waiting for CV material classification...")
@@ -261,38 +261,38 @@ class MotorNode(Node):
 
             self.waiting_response = False
             self.state = ArmState.MOVE_TO_BIN
-            self.get_logger().info("→ MOVE_TO_BIN")
+            self.get_logger().info("MOVE_TO_BIN")
             self.get_logger().info(f"Material: {self.material_detected}")
 
         elif self.state == ArmState.MOVE_TO_BIN:
-            self.get_logger().info("→ In MOVE_TO_BIN")
+            self.get_logger().info("In MOVE_TO_BIN")
             mat = self.material_detected.strip().lower()
             if mat == "metal" or mat == "aluminum":
-                self.get_logger().info("→ Going to metal bin")
+                self.get_logger().info("Going to metal bin")
                 bin_cmd = "metal_bin"
             elif mat == "cardboard":
-                self.get_logger().info("→ Going to cardboard bin")
+                self.get_logger().info("Going to cardboard bin")
                 bin_cmd = "cardboard_bin"
             else:
-                self.get_logger().info("→ Defaulting to trash bin")
+                self.get_logger().info("Defaulting to trash bin")
                 bin_cmd = "plastic_bin"  
 
             self.send_named_command(bin_cmd)
             self.state = ArmState.DROP_OBJECT
-            self.get_logger().info("→ DROP_OBJECT")
+            self.get_logger().info("DROP_OBJECT")
 
 
         elif self.state == ArmState.DROP_OBJECT:
             self.send_named_command("ee_open")
             self.grip_open = True
             self.state = ArmState.RETURN_HOME
-            self.get_logger().info("→ RETURN_HOME")
+            self.get_logger().info("RETURN_HOME")
 
         elif self.state == ArmState.RETURN_HOME:
             self.ser.write(b"set t3 30\n")
             time.sleep(0.5)
             self.state = ArmState.RESET
-            self.get_logger().info("→ RESET")
+            self.get_logger().info("RESET")
 
         elif self.state == ArmState.RESET:
             self.last_command_sent = None
@@ -300,7 +300,7 @@ class MotorNode(Node):
             self.spectrometer_result = None
             self.cv_ack_received = False 
             self.state = ArmState.HOMING
-            self.get_logger().info("→ Go Home")
+            self.get_logger().info("Go Home")
 
 class ArmState(Enum):
     HOMING = -1

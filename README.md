@@ -1,0 +1,81 @@
+# T.R.A.S.H. — Trackable Recyclable Automated Sorting Hand  
+**University of Central Florida – Group 7 Senior Design Project**
+
+This repository contains the ROS 2 Jazzy package developed for the **T.R.A.S.H.** project. The goal of this project was to design an autonomous robotic system capable of identifying, sorting, and categorizing recyclable materials using computer vision, embedded control, and spectrometry.
+
+All scripts are written in **Python using `rclpy`** and were tested on **Ubuntu 24.04**. The project integrates multiple subsystems including camera vision, robotic control, GUI feedback, and real-time material classification.
+
+---
+
+## Repository Structure
+
+This ROS 2 package contains 8 primary nodes:
+
+### 1. `basic_webcam_node.py`
+- Verifies that the USB camera is recognized by the system.
+- Functions similarly to `libcamera-hello` for simple camera validation.
+
+### 2. `basic_cv_node.py`
+- Loads a trained YOLO model from the `models/` directory.
+- Captures camera frames and runs inference.
+- Publishes detection direction to the `cv_direction` topic.
+
+### 3. `basic_motor_node.py`
+- Establishes UART serial communication with the ESP32 motor controller.
+- Uses a USB-to-TTL adapter and confirms connection stability.
+- Accounts for common device switching between `/dev/ttyUSB0` and `/dev/ttyUSB1`.
+
+---
+
+## Main Functional Nodes
+
+### 4. `cv_node.py`
+- Performs real-time object detection using YOLO.
+- Tracks object center location and assigns a detection zone (left, center, right).
+- Sends commands to guide pick-and-place operations.
+
+### 5. `canny_node.py`
+- Main computer vision node combining YOLO and Canny edge detection.
+- If YOLO’s confidence is below 80%, the object is flagged as "unknown."
+- Triggers the spectrometer for material confirmation in low-confidence scenarios.
+
+### 6. `motor_node.py`
+- Controls robot motion via a finite state machine (FSM).
+- Sends motor angle commands to the ESP32 over UART based on detection inputs.
+- Manages state transitions for pick, analyze, and bin placement sequences.
+- Logs current joint angles and robot state throughout the process.
+
+### 7. `spectrometer_node.py`
+- Communicates with an STM32-based spectrometer over serial.
+- Reads reflectance spectra and classifies materials as paper, plastic, or metal.
+- Delays reading to allow the object to be fully centered before capture.
+- Publishes classification data to inform sorting decisions.
+
+### 8. `gui_node.py`
+- Provides a live interface to monitor and control the robot.
+- Displays object detection output, CV and spectrometer results, motor angles, and FSM state.
+- Allows manual joint control and includes an emergency stop feature.
+
+---
+
+## Virtual Environment
+
+To ensure reproducibility, a list of dependencies is included in: trash_venv_requirements.txt
+
+### Setup Instructions:
+```bash
+python3 -m venv trash_env
+source trash_env/bin/activate
+pip install -r trash_venv_requirements.txt
+```
+## Hardware Components
+
+- **Camera**: Arducam 4K 8MP IMX219 Autofocus USB Camera  
+- **Main Processor**: Raspberry Pi 5 (8GB RAM)  
+- **Motor Controller**: ESP32-S3-WROOM-1-N8  
+- **Spectrometer MCU**: STM32F401  
+- **Storage**: 64GB MicroSD  
+- **Serial Interface**: USB to TTL (5-pin) Adapter Module  
+
+
+

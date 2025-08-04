@@ -58,6 +58,26 @@ This ROS 2 package contains 8 primary nodes:
 
 ---
 
+## YOLO Models Used
+
+This project utilizes two versions of the YOLO (You Only Look Once) object detection framework for item recognition:
+
+### YOLOv8
+- Used for early model testing and baseline performance.
+- Compatible with `best_v7.pt`.
+- Integrated into the pipeline to verify item position and guide robotic motion.
+
+### YOLOv12
+- Used for improved detection performance in the final system.
+- Compatible with `best_v8.pt` and `best_v9.pt`.
+- Provides more accurate detection and better support for detecting recyclable objects under varied lighting and occlusion.
+
+Both versions are loaded using **Ultralytics' PyTorch-based interface** and integrated into `cv_node.py` and `canny_node.py` depending on the configuration.
+
+> Note: All models are stored in the `models/` directory and are loaded dynamically based on which `.pt` file is selected during runtime.
+
+---
+
 ## Virtual Environment
 
 To ensure reproducibility, a list of dependencies is included in: trash_venv_requirements.txt

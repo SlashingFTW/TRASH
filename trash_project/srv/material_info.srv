@@ -1,0 +1,6 @@
+string material
+float32 confidence
+string match_name
+---
+bool success
+string message

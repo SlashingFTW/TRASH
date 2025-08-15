@@ -74,7 +74,7 @@ This project utilizes two versions of the YOLO (You Only Look Once) object detec
 
 Both versions are loaded using **Ultralytics' PyTorch-based interface** and integrated into `cv_node.py` and `canny_node.py` depending on the configuration.
 
-> Note: All models are stored in the `models/` directory and are loaded dynamically based on which `.pt` file is selected during runtime.
+> Note: All models are stored in the `models/` directory and are loaded based on which `.pt` file is selected during runtime.
 
 ---
 

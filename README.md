@@ -9,7 +9,14 @@ All scripts are written in **Python using `rclpy`** and were tested on **Ubuntu 
 
 ## Repository Structure
 
-This ROS 2 package contains 8 primary nodes:
+Before running the ROS 2 nodes, the `motor_controller.ino` firmware must be uploaded to the ESP32.
+This code handles all low-level motor actuation and is required for any robotic movement.
+- Uploaded via Arduino IDE to an ESP32-S3
+- Connected via GPIO pins
+- Currently has pre-determined movements, beucase of lack of simulation testing with IK
+
+
+This ROS 2 package `trash_project/trash_project` contains 8 primary nodes:
 
 ### 1. `basic_webcam_node.py`
 - Verifies that the USB camera is recognized by the system.

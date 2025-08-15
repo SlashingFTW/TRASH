@@ -1,6 +1,12 @@
 # T.R.A.S.H. — Trackable Recyclable Automated Sorting Hand  
 **University of Central Florida – Group 7 Senior Design Project**
 
+Missing:
+- urdf file
+- Arm Design, EE and possibly full design
+- video
+- website
+
 This repository contains the ROS 2 Jazzy package developed for the **T.R.A.S.H.** project. The goal of this project was to design an autonomous robotic system capable of identifying, sorting, and categorizing recyclable materials using computer vision, embedded control, and spectrometry.
 
 All scripts are written in **Python using `rclpy`** and were tested on **Ubuntu 24.04**. The project integrates multiple subsystems including camera vision, robotic control, GUI feedback, and real-time material classification.

@@ -23,7 +23,7 @@ This ROS 2 package contains 8 primary nodes:
 ### 3. `basic_motor_node.py`
 - Establishes UART serial communication with the ESP32 motor controller.
 - Uses a USB-to-TTL adapter and confirms connection stability.
-- Accounts for common device switching between `/dev/ttyUSB0` and `/dev/ttyUSB1`.
+- Does not account for switching between `/dev/ttyUSB0` and `/dev/ttyUSB1`.
 
 ---
 
